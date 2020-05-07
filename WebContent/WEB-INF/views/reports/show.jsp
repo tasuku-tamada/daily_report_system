@@ -9,9 +9,17 @@
 
                 <table>
                     <tbody>
-                        <tr>
+                        <tr >
                             <th>氏名</th>
-                            <td><c:out value="${report.employee.name}" /></td>
+                            <td>
+                            <div style="display:inline-flex">
+                                 <c:out value="${report.employee.name}　" />
+                                  <form method="post" action="<c:url value="/follow/add" />">
+                                     <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
+                                     <input type="submit" value = "フォロー">
+                                 </form>
+                                 </div>
+                            </td>
                         </tr>
                         <tr>
                             <th>日付</th>
