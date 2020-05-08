@@ -1,6 +1,7 @@
 package controllers.toppage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -45,17 +46,32 @@ public class TopPageIndexServlet extends HttpServlet {
             page = 1;
         }
         List<Report> reports = em.createNamedQuery("getMyAllReports", Report.class)
-                                  .setParameter("employee", login_employee)
-                                  .setFirstResult(15 * (page - 1))
-                                  .setMaxResults(15)
-                                  .getResultList();
+                .setParameter("employee", login_employee)
+                .setFirstResult(15 * (page - 1))
+                .setMaxResults(15)
+                .getResultList();
 
         long reports_count = (long)em.createNamedQuery("getMyReportsCount", Long.class)
-                                     .setParameter("employee", login_employee)
-                                     .getSingleResult();
+                .setParameter("employee", login_employee)
+                .getSingleResult();
 
+        //ログイン中のユーザーがフォロワーのフォローIDを取得
+        List<Integer> follows = em.createNamedQuery("getFollow_id",Integer.class)
+                .setParameter("follower_id",login_employee.getId() )
+                .getResultList();
+
+        List<Report> follow_reports = new ArrayList<Report>();
+        for(Integer follow_id : follows){
+            Employee e = em.find(Employee.class, follow_id);
+            List<Report> reports_f = em.createNamedQuery("getMyAllReports", Report.class)
+                    .setParameter("employee", e)
+                    .getResultList();
+            if(reports != null)
+                follow_reports.addAll(reports_f);
+        }
         em.close();
 
+        request.setAttribute("follow_reports", follow_reports);
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
