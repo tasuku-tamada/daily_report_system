@@ -7,9 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Table(name = "followers")
+@NamedQueries({
+    @NamedQuery(
+            name = "getFollow_id",
+            query = "SELECT f.follow_id FROM Follower AS f where f.follower_id = :follower_id "
+            ),
+    @NamedQuery(
+            name = "getFollowerRecord",
+            query = "SELECT f FROM Follower AS f where f.follower_id = :follower_id and f.follow_id = :follow_id"
+            )
+})
 @Entity
 public class Follower {
     @Id
@@ -23,8 +35,8 @@ public class Follower {
     @Column(name = "follower_id", nullable = false)
     private Integer follower_id;
 
-    @Column(name = "follow_at", nullable = false)
-    private Timestamp follow_at;
+    @Column(name = "create_at", nullable = false)
+    private Timestamp create_at;
 
     public Integer getFollow_id() {
         return follow_id;
@@ -42,11 +54,11 @@ public class Follower {
         this.follower_id = follower_id;
     }
 
-    public Timestamp getFollow_at() {
-        return follow_at;
+    public Timestamp getCreate_at() {
+        return create_at;
     }
 
-    public void setFollow_at(Timestamp follow_at) {
-        this.follow_at = follow_at;
+    public void setCreate_at(Timestamp create_at) {
+        this.create_at = create_at;
     }
 }

@@ -21,6 +21,7 @@
                                              <form method="POST" action="<c:url value="/follow/remove"/>">
                                                 <input type="hidden" name="_token" value="${_token}" />
                                                 <input type="hidden" name="report_id" value="${report.id}" />
+                                                <input type="hidden" name="follower_id" value="${sessionScope.login_employee.id }" />
                                                 <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
                                                 <input type="submit" value = "フォロー解除">
                                               </form>
@@ -29,6 +30,7 @@
                                              <form method="POST" action="<c:url value="/follow/add" />">
                                                 <input type="hidden" name="_token" value="${_token}" />
                                                 <input type="hidden" name="report_id" value="${report.id}" />
+                                                <input type="hidden" name="follower_id" value="${sessionScope.login_employee.id }" />
                                                 <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
                                                 <input type="submit" value = "フォロー">
                                              </form>

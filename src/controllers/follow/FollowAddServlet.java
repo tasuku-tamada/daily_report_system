@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Employee;
 import models.Follower;
 import utils.DBUtil;
 
@@ -38,9 +37,8 @@ public class FollowAddServlet extends HttpServlet {
             EntityManager em = DBUtil.createEntityManager();
 
             Follower f = new Follower();
-            Employee follower =  (Employee)request.getSession().getAttribute("login_employee");
 
-            Integer follower_id = follower.getId();
+            Integer follower_id = Integer.parseInt(request.getParameter("follower_id"));
             Integer follow_id = Integer.parseInt(request.getParameter("follow_id"));
 
             f.setFollower_id(follower_id);
@@ -49,7 +47,7 @@ public class FollowAddServlet extends HttpServlet {
 
             Timestamp follow_Time = new Timestamp(System.currentTimeMillis());
 
-            f.setFollow_at(follow_Time);
+            f.setCreate_at(follow_Time);
 
             em.getTransaction().begin();
             em.persist(f);
