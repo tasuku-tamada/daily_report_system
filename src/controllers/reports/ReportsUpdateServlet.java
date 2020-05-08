@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Report;
 import models.validators.ReportValidator;
 import utils.DBUtil;
@@ -46,6 +47,14 @@ public class ReportsUpdateServlet extends HttpServlet {
             r.setTitle(request.getParameter("title"));
             r.setContent(request.getParameter("content"));
             r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
+
+            Employee loginEmployee = (Employee)request.getSession().getAttribute("login_employee");
+
+            //とりあえず管理者以外は承認が必要にしておく
+            if(loginEmployee.getAdmin_flag() == 1)
+                r.setApproval_flag(1);
+            else
+                r.setApproval_flag(0);
 
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {

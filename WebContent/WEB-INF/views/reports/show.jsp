@@ -61,6 +61,18 @@
                             <td>
                                 <fmt:formatDate value="${report.updated_at}" pattern="yyyy-MM-dd HH:mm:ss" />
                             </td>
+                        </tr><tr>
+                            <th>承認</th>
+                            <td>
+                                <c:choose>
+                                     <c:when test="${report.approval_flag == 1}">
+                                         済
+                                     </c:when>
+                                     <c:otherwise>
+                                         未
+                                      </c:otherwise>
+                                  </c:choose>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
