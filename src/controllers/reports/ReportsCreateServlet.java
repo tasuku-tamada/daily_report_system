@@ -43,7 +43,9 @@ public class ReportsCreateServlet extends HttpServlet {
 
             Report r = new Report();
 
-            r.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
+            Employee loginEmployee = (Employee)request.getSession().getAttribute("login_employee");
+
+            r.setEmployee(loginEmployee);
 
             Date report_date = new Date(System.currentTimeMillis());
             String rd_str = request.getParameter("report_date");
@@ -58,6 +60,12 @@ public class ReportsCreateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             r.setCreated_at(currentTime);
             r.setUpdated_at(currentTime);
+
+            //とりあえず管理者以外は承認が必要にしておく
+            if(loginEmployee.getAdmin_flag() == 1)
+                r.setApproval_flag(1);
+            else
+                r.setApproval_flag(0);
 
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {
