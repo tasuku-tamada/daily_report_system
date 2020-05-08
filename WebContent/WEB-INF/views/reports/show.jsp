@@ -12,18 +12,30 @@
                         <tr >
                             <th>氏名</th>
                             <td>
-                            <div style="display:inline-flex">
+                                <div style="display:inline-flex">
                                  <c:out value="${report.employee.name}　" />
-                                 <c:choose>
-                                 <c:when test="${sessionScope.login_employee.id != report.employee.id}">
-                                      <form method="POST" action="<c:url value="/follow/add" />">
-                                         <input type="hidden" name="_token" value="${_token}" />
-                                         <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
-                                         <input type="submit" value = "フォロー">
-                                     </form>
-                                 </c:when>
-                                 </c:choose>
-                                 </div>
+
+                                 <c:if test="${sessionScope.login_employee.id != report.employee.id}">
+                                     <c:choose>
+                                         <c:when test="${followed}">
+                                             <form method="POST" action="<c:url value="/follow/remove"/>">
+                                                <input type="hidden" name="_token" value="${_token}" />
+                                                <input type="hidden" name="report_id" value="${report.id}" />
+                                                <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
+                                                <input type="submit" value = "フォロー解除">
+                                              </form>
+                                         </c:when>
+                                         <c:otherwise>
+                                             <form method="POST" action="<c:url value="/follow/add" />">
+                                                <input type="hidden" name="_token" value="${_token}" />
+                                                <input type="hidden" name="report_id" value="${report.id}" />
+                                                <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
+                                                <input type="submit" value = "フォロー">
+                                             </form>
+                                          </c:otherwise>
+                                      </c:choose>
+                                </c:if>
+                                </div>
                             </td>
                         </tr>
                         <tr>

@@ -55,11 +55,8 @@ public class FollowAddServlet extends HttpServlet {
             em.persist(f);
             em.getTransaction().commit();
             em.close();
-            request.getSession().setAttribute("flush", "フォローしました。");
-            response.sendRedirect(request.getContextPath() + "/reports/show?id=" + follow_id);
+            response.sendRedirect(request.getContextPath() + "/reports/show?id=" + request.getParameter("report_id"));
         }
-        String str = "token_now:"+_token + "  token_get:"+request.getSession().getId();
-        response.getWriter().append(str);
     }
 
 }
