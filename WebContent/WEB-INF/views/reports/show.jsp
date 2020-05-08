@@ -14,10 +14,15 @@
                             <td>
                             <div style="display:inline-flex">
                                  <c:out value="${report.employee.name}　" />
-                                  <form method="post" action="<c:url value="/follow/add" />">
-                                     <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
-                                     <input type="submit" value = "フォロー">
-                                 </form>
+                                 <c:choose>
+                                 <c:when test="${sessionScope.login_employee.id != report.employee.id}">
+                                      <form method="POST" action="<c:url value="/follow/add" />">
+                                         <input type="hidden" name="_token" value="${_token}" />
+                                         <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
+                                         <input type="submit" value = "フォロー">
+                                     </form>
+                                 </c:when>
+                                 </c:choose>
                                  </div>
                             </td>
                         </tr>

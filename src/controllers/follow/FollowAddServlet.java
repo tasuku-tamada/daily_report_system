@@ -41,7 +41,7 @@ public class FollowAddServlet extends HttpServlet {
             Employee follower =  (Employee)request.getSession().getAttribute("login_employee");
 
             Integer follower_id = follower.getId();
-            Integer follow_id = (Integer)request.getAttribute("follow_id");
+            Integer follow_id = Integer.parseInt(request.getParameter("follow_id"));
 
             f.setFollower_id(follower_id);
             f.setFollow_id(follow_id);
@@ -56,9 +56,10 @@ public class FollowAddServlet extends HttpServlet {
             em.getTransaction().commit();
             em.close();
             request.getSession().setAttribute("flush", "フォローしました。");
-
             response.sendRedirect(request.getContextPath() + "/reports/show?id=" + follow_id);
         }
+        String str = "token_now:"+_token + "  token_get:"+request.getSession().getId();
+        response.getWriter().append(str);
     }
 
 }
