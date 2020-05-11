@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Group;
+import models.Position;
 import models.validators.EmployeeValidator;
 import utils.DBUtil;
 import utils.EncryptUtil;
@@ -52,9 +54,15 @@ public class EmployeesCreateServlet extends HttpServlet {
                     );
             e.setAdmin_flag(Integer.parseInt(request.getParameter("admin_flag")));
 
+            Group g = em.find(Group.class, request.getParameter("group_code"));
+            Position p = em.find(Position.class,Integer.parseInt( request.getParameter("position_id")));
+
+            e.setGroup(g);
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             e.setCreated_at(currentTime);
             e.setUpdated_at(currentTime);
+            e.setPosition(p);
+            e.setGroup(g);
             e.setDelete_flag(0);
 
             List<String> errors = EmployeeValidator.validate(e, true, true);

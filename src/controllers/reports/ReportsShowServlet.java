@@ -39,11 +39,11 @@ public class ReportsShowServlet extends HttpServlet {
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
         boolean followed = false;
-        Employee follower_e =  (Employee)request.getSession().getAttribute("login_employee");
+        Employee login_employee =  (Employee)request.getSession().getAttribute("login_employee");
 
         //ログイン中のユーザーがフォロワーのフォローIDを取得
         List<Employee> follow_employees = em.createNamedQuery("getFollowEmployee",Employee.class)
-                .setParameter("follower_id",follower_e.getId() )
+                .setParameter("follower_id",login_employee.getId() )
                 .getResultList();
 
         for(Employee follow_employee : follow_employees){
@@ -59,6 +59,7 @@ public class ReportsShowServlet extends HttpServlet {
         request.setAttribute("report", r);
         request.setAttribute("_token", request.getSession().getId());
         request.setAttribute("followed", followed);
+        request.setAttribute("login_employee", login_employee);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
         rd.forward(request, response);
       }

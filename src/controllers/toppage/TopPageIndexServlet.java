@@ -1,7 +1,6 @@
 package controllers.toppage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -55,25 +54,24 @@ public class TopPageIndexServlet extends HttpServlet {
                 .setParameter("employee", login_employee)
                 .getSingleResult();
 
-        //ログイン中のユーザーがフォロワーのフォローIDを取得
-        List<Employee> follow_employees = em.createNamedQuery("getFollowEmployee",Employee.class)
-                .setParameter("follower_id",login_employee.getId() )
-                .getResultList();
+        //フォローしている社員の日報を取得
+        List<Report> follow_reports = em.createNamedQuery("getFollowAllReports", Report.class)
+        .setParameter("follower_id",login_employee.getId())
+        .getResultList();
 
-        List<Report> follow_reports = new ArrayList<Report>();
+        //所属が同じかつ、権限レベルが下かつ、未承認の日報を表示
+        List<Report> unapproved_reports = em.createNamedQuery("getUnapprovedReports", Report.class)
+        .setParameter("group",login_employee.getGroup())
+        .setParameter("position_level",login_employee.getPosition().getLevel())
+        .getResultList();
 
-        for(Employee follow_employee : follow_employees){
-            List<Report> reports_f = em.createNamedQuery("getMyAllReports", Report.class)
-                    .setParameter("employee", follow_employee)
-                    .getResultList();
-            if(reports != null)
-                follow_reports.addAll(reports_f);
-        }
         em.close();
 
-        request.setAttribute("follow_reports", follow_reports);
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
+        request.setAttribute("follow_reports", follow_reports);
+        request.setAttribute("unapproved_reports", unapproved_reports);
+
         request.setAttribute("page", page);
 
         if(request.getSession().getAttribute("flush") != null) {

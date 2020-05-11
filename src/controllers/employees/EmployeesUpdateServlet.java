@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Group;
+import models.Position;
 import models.validators.EmployeeValidator;
 import utils.DBUtil;
 import utils.EncryptUtil;
@@ -65,12 +67,15 @@ public class EmployeesUpdateServlet extends HttpServlet {
                                 )
                         );
             }
+            Group g = em.find(Group.class, request.getParameter("group_code"));
+            Position p = em.find(Position.class,Integer.parseInt( request.getParameter("position_id")));
 
             e.setName(request.getParameter("name"));
             e.setAdmin_flag(Integer.parseInt(request.getParameter("admin_flag")));
             e.setUpdated_at(new Timestamp(System.currentTimeMillis()));
             e.setDelete_flag(0);
-
+            e.setPosition(p);
+            e.setGroup(g);
             List<String> errors = EmployeeValidator.validate(e, code_duplicate_check, password_check_flag);
             if(errors.size() > 0) {
                 em.close();

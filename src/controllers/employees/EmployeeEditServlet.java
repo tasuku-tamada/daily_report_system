@@ -1,6 +1,7 @@
 package controllers.employees;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Group;
+import models.Position;
 import utils.DBUtil;
 
 /**
@@ -36,9 +39,16 @@ public class EmployeeEditServlet extends HttpServlet {
 
         Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
 
+        List<Position> positions =  em.createNamedQuery("getAllPositions", Position.class)
+                .getResultList();
+        List<Group> groups =  em.createNamedQuery("getAllGroups", Group.class)
+                .getResultList();
+
         em.close();
 
         request.setAttribute("employee", e);
+        request.setAttribute("positions", positions);
+        request.setAttribute("groups", groups);
         request.setAttribute("_token", request.getSession().getId());
         request.getSession().setAttribute("employee_id", e.getId());
 

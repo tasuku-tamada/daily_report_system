@@ -14,6 +14,13 @@
                             <td><c:out value="${employee.code}" /></td>
                         </tr>
                         <tr>
+                            <th>所属</th>
+                            <td><c:out value="${employee.group.name}" /></td>
+                        </tr>                   <tr>
+                            <th>役職</th>
+                            <td><c:out value="${employee.position.name}" /></td>
+                        </tr>
+                        <tr>
                             <th>氏名</th>
                             <td><c:out value="${employee.name}" /></td>
                         </tr>

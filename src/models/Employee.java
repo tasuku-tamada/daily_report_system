@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -49,6 +51,10 @@ public class Employee {
     @Column(name = "admin_flag", nullable = false)
     private Integer admin_flag;
 
+    @ManyToOne
+    @JoinColumn(name = "position_id", nullable = false)
+    private Position position;
+
     @Column(name = "created_at", nullable = false)
     private Timestamp created_at;
 
@@ -57,6 +63,10 @@ public class Employee {
 
     @Column(name = "delete_flag", nullable = false)
     private Integer delete_flag;
+
+    @ManyToOne
+    @JoinColumn(name = "group_code", nullable = false)
+    private Group group;
 
     public Integer getId() {
         return id;
@@ -98,6 +108,14 @@ public class Employee {
         this.admin_flag = admin_flag;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -121,4 +139,13 @@ public class Employee {
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
     }
-}
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+  }

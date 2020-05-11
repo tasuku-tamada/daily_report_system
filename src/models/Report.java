@@ -32,6 +32,10 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getMyReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
+            ),
+    @NamedQuery(
+            name = "getUnapprovedReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_flag = 0 and r.employee.group = :group and r.employee.position.level < :position_level"
             )
 })
 @Entity

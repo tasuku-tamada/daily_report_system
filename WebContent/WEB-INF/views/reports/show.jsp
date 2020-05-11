@@ -69,7 +69,16 @@
                                          済
                                      </c:when>
                                      <c:otherwise>
-                                         未
+                                         <div style="display:inline-flex">
+                                         未　
+                                        <c:if test = "${login_employee.group.code == report.employee.group.code and login_employee.position.level > report.employee.position.level}">
+                                                <form method="POST" action="<c:url value="/reports/approve"/>">
+                                                <input type="hidden" name="_token" value="${_token}" />
+                                                <input type="hidden" name="report_id" value="${report.id}" />
+                                                <input type="submit" value = "承認">
+                                              </form>
+                                         </c:if>
+                                         </div>
                                       </c:otherwise>
                                   </c:choose>
                             </td>

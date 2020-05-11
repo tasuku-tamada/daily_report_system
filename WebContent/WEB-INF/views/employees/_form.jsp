@@ -9,6 +9,15 @@
 
     </div>
 </c:if>
+
+<label for="group_code">所属</label><br />
+<select name="group_code">
+    <c:forEach var="group" items="${groups}">
+        <option value="<c:out value= "${group.code}"/>"<c:if test="${employee.group.code == group.code}"> selected</c:if>><c:out value = "${group.name}" /></option>
+    </c:forEach>
+</select>
+<br /><br />
+
 <label for="code">社員番号</label><br />
 <input type="text" name="code" value="${employee.code}" />
 <br /><br />
@@ -19,6 +28,14 @@
 
 <label for="password">パスワード</label><br />
 <input type="password" name="password" />
+<br /><br />
+
+<label for="position_id">役職</label><br />
+<select name="position_id">
+    <c:forEach var="position" items="${positions}">
+        <option value="<c:out value= "${position.id}"/>"<c:if test="${employee.position.id == position.id}"> selected</c:if>><c:out value = "${position.name}" /></option>
+    </c:forEach>
+</select>
 <br /><br />
 
 <label for="admin_flag">権限</label><br />

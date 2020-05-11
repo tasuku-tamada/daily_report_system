@@ -18,6 +18,11 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getFollowEmployee",
             query = "SELECT f.follow_employee FROM Follower AS f where f.follower_employee.id = :follower_id "
+            ),
+    @NamedQuery(
+            name = "getFollowAllReports",
+            query = "SELECT r FROM Report AS r WHERE r.employee in "
+                    + "(SELECT f.follow_employee FROM Follower AS f where f.follower_employee.id = :follower_id)"
             )
 })
 @Entity
