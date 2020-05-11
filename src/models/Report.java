@@ -61,6 +61,8 @@ public class Report {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
+    @Column(name = "approval_flag", nullable = false)
+    private Integer approval_flag;
 
     public Integer getApproval_flag() {
         return approval_flag;
@@ -70,8 +72,6 @@ public class Report {
         this.approval_flag = approval_flag;
     }
 
-    @Column(name = "approval_flag", nullable = false)
-    private Integer approval_flag;
 
     public Integer getId() {
         return id;

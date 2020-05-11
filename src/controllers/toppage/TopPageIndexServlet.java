@@ -56,15 +56,15 @@ public class TopPageIndexServlet extends HttpServlet {
                 .getSingleResult();
 
         //ログイン中のユーザーがフォロワーのフォローIDを取得
-        List<Integer> follows = em.createNamedQuery("getFollow_id",Integer.class)
+        List<Employee> follow_employees = em.createNamedQuery("getFollowEmployee",Employee.class)
                 .setParameter("follower_id",login_employee.getId() )
                 .getResultList();
 
         List<Report> follow_reports = new ArrayList<Report>();
-        for(Integer follow_id : follows){
-            Employee e = em.find(Employee.class, follow_id);
+
+        for(Employee follow_employee : follow_employees){
             List<Report> reports_f = em.createNamedQuery("getMyAllReports", Report.class)
-                    .setParameter("employee", e)
+                    .setParameter("employee", follow_employee)
                     .getResultList();
             if(reports != null)
                 follow_reports.addAll(reports_f);

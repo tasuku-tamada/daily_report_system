@@ -42,13 +42,13 @@ public class ReportsShowServlet extends HttpServlet {
         Employee follower_e =  (Employee)request.getSession().getAttribute("login_employee");
 
         //ログイン中のユーザーがフォロワーのフォローIDを取得
-        List<Integer> follows = em.createNamedQuery("getFollow_id",Integer.class)
+        List<Employee> follow_employees = em.createNamedQuery("getFollowEmployee",Employee.class)
                 .setParameter("follower_id",follower_e.getId() )
                 .getResultList();
 
-        for(Integer follow : follows){
+        for(Employee follow_employee : follow_employees){
           //既にフォロー済みの場合
-            if(r.getEmployee().getId() == follow){
+            if(r.getEmployee().getId() == follow_employee.getId()){
                 followed =true;
                 break;
             }
