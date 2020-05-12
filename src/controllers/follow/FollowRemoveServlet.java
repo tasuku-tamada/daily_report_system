@@ -1,7 +1,6 @@
 package controllers.follow;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -40,16 +39,14 @@ public class FollowRemoveServlet extends HttpServlet {
             Integer follower_id = Integer.parseInt(request.getParameter("follower_id"));
 
             //ログイン中のユーザーがフォロワーのフォローIDを取得
-            List<Follower> follows = em.createNamedQuery("getFollowerRecord",Follower.class)
+            Follower follower = em.createNamedQuery("getFollower",Follower.class)
                     .setParameter("follow_id",follow_id )
                     .setParameter("follower_id",follower_id )
-                    .getResultList();
+                    .getSingleResult();
 
-            Follower f;
-            if(follows.size() == 1){
-                f = follows.get(0);
+            if(follower != null){
                 em.getTransaction().begin();
-                em.remove(f);
+                em.remove(follower);
                 em.getTransaction().commit();
             }
             em.close();
