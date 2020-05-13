@@ -2,7 +2,9 @@ package controllers.reports;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Customer;
 import models.Report;
+import utils.DBUtil;
 
 /**
  * Servlet implementation class ReportsNewServlet
@@ -35,7 +39,14 @@ public class ReportsNewServlet extends HttpServlet {
 
         Report r = new Report();
         r.setReport_date(new Date(System.currentTimeMillis()));
+
+        //顧客一覧を取得
+        EntityManager em = DBUtil.createEntityManager();
+        List<Customer> customers = em.createNamedQuery("getAllCustomers",Customer.class).getResultList();
+        em.close();
+
         request.setAttribute("report", r);
+        request.setAttribute("customers", customers);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/new.jsp");
         rd.forward(request, response);	}

@@ -7,6 +7,8 @@
 		<class>models.Follower</class>
 		<class>models.Group</class>
 		<class>models.Position</class>
+		<class>models.Reaction</class>
+		<class>models.Customer</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/daily_report_system?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8"/>

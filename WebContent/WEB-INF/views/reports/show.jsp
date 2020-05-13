@@ -23,7 +23,7 @@
                                                 <input type="hidden" name="report_id" value="${report.id}" />
                                                 <input type="hidden" name="follower_id" value="${sessionScope.login_employee.id }" />
                                                 <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
-                                                <input type="submit" value = "フォロー解除">
+                                                <input type="submit" class = "onbutton"value = "フォロー解除">
                                               </form>
                                          </c:when>
                                          <c:otherwise>
@@ -32,7 +32,7 @@
                                                 <input type="hidden" name="report_id" value="${report.id}" />
                                                 <input type="hidden" name="follower_id" value="${sessionScope.login_employee.id }" />
                                                 <input type="hidden" name="follow_id" value="<c:out value="${report.employee.id}"/>">
-                                                <input type="submit" value = "フォロー">
+                                                <input type="submit" class = "offbutton" value = "フォロー">
                                              </form>
                                           </c:otherwise>
                                       </c:choose>
@@ -85,6 +85,24 @@
                         </tr>
                     </tbody>
                 </table>
+                <c:choose>
+                     <c:when test ="${liked}">
+                           <form method="POST" action="<c:url value="/reaction/remove"/>">
+                                 <input type="hidden" name="_token" value="${_token}" />
+                                 <input type="hidden" name="report_id" value="${report.id}" />
+                                 <input type="hidden" name="type" value="0" />
+                                 <input type="submit" value = "${'いいね :'+=good_count}" class = "onbutton">
+                           </form>
+                         </c:when>
+                         <c:otherwise>
+                            <form method="POST" action="<c:url value="/reaction/add"/>">
+                                 <input type="hidden" name="_token" value="${_token}" />
+                                 <input type="hidden" name="report_id" value="${report.id}" />
+                                 <input type="hidden" name="type" value="0" />
+                                 <input type="submit" value = "${'いいね :'+=good_count}" class = "offbutton">
+                           </form>
+                         </c:otherwise>
+                     </c:choose>
 
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
                     <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>

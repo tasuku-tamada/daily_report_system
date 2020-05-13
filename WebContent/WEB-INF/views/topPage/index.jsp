@@ -51,6 +51,7 @@
                 </c:choose>
             </c:forEach>
         </div>
+        <p><a href="<c:url value='/reports/new' />">新規日報の登録</a></p>
         <br>
         <h3>【フォロー中の日報　一覧】</h3>
         <table id="follow_report_list">
@@ -94,6 +95,5 @@
             </tbody>
         </table>
 
-        <p><a href="<c:url value='/reports/new' />">新規日報の登録</a></p>
     </c:param>
 </c:import>

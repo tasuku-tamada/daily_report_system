@@ -22,8 +22,16 @@ import javax.persistence.Table;
             query = "SELECT r FROM Report AS r ORDER BY r.id DESC"
             ),
     @NamedQuery(
+            name = "getAllApprovedReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_flag = 1 ORDER BY r.id DESC"
+            ),
+    @NamedQuery(
             name = "getReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r"
+            ),
+    @NamedQuery(
+            name = "getApprovedReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.approval_flag = 1"
             ),
     @NamedQuery(
             name = "getMyAllReports",
@@ -65,17 +73,16 @@ public class Report {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
+    //承認済み:1 未承認:0
     @Column(name = "approval_flag", nullable = false)
     private Integer approval_flag;
 
-    public Integer getApproval_flag() {
-        return approval_flag;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = true)
+    private Customer customer;
 
-    public void setApproval_flag(Integer approval_flag) {
-        this.approval_flag = approval_flag;
-    }
-
+    @Column(name = "business_status", nullable = true)
+    private String business_status;
 
     public Integer getId() {
         return id;
@@ -132,4 +139,30 @@ public class Report {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    public Integer getApproval_flag() {
+        return approval_flag;
+    }
+
+    public void setApproval_flag(Integer approval_flag) {
+        this.approval_flag = approval_flag;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public String getBusiness_status() {
+        return business_status;
+    }
+
+    public void setBusiness_status(String business_status) {
+        this.business_status = business_status;
+    }
+
+
 }

@@ -46,7 +46,7 @@ public class ReportsIndexServlet extends HttpServlet {
                                   .setMaxResults(15)
                                   .getResultList();
 
-        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+        long reports_count = (long)em.createNamedQuery("getApprovedReportsCount", Long.class)
                                      .getSingleResult();
 
         em.close();

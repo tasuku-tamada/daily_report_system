@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Customer;
 import models.Employee;
 import models.Report;
 import models.validators.ReportValidator;
@@ -61,11 +62,18 @@ public class ReportsCreateServlet extends HttpServlet {
             r.setCreated_at(currentTime);
             r.setUpdated_at(currentTime);
 
+
             //とりあえず管理者以外は承認が必要にしておく
             if(loginEmployee.getAdmin_flag() == 1)
                 r.setApproval_flag(1);
             else
                 r.setApproval_flag(0);
+
+            Integer customer_id =Integer.parseInt(request.getParameter("customer"));
+            if(customer_id != 0){
+                r.setCustomer(em.find(Customer.class, customer_id));
+                r.setBusiness_status(request.getParameter("business_status"));
+            }
 
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {

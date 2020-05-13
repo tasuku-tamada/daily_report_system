@@ -54,9 +54,25 @@ public class ReportsShowServlet extends HttpServlet {
             }
         }
 
+        Long good_count = (Long)em.createNamedQuery("getReactionCount",Long.class)
+                .setParameter("report", r)
+                .setParameter("type", 0)
+                .getSingleResult();
+        Long my_good_count = (Long)em.createNamedQuery("getMyReaction",Long.class)
+                .setParameter("employee", login_employee)
+                .setParameter("report", r)
+                .setParameter("type", 0)
+                .getSingleResult();
+
+        boolean liked = false;
+        if(my_good_count > 0)
+            liked = true;
+
         em.close();
 
         request.setAttribute("report", r);
+        request.setAttribute("good_count", good_count);
+        request.setAttribute("liked", liked);
         request.setAttribute("_token", request.getSession().getId());
         request.setAttribute("followed", followed);
         request.setAttribute("login_employee", login_employee);

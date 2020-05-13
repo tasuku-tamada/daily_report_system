@@ -1,6 +1,7 @@
 package controllers.reports;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Customer;
 import models.Employee;
 import models.Report;
 import utils.DBUtil;
@@ -36,6 +38,8 @@ public class ReportsEditServlet extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
+        //顧客一覧を取得
+        List<Customer> customers = em.createNamedQuery("getAllCustomers",Customer.class).getResultList();
 
         em.close();
 
@@ -43,6 +47,7 @@ public class ReportsEditServlet extends HttpServlet {
         if(r != null && login_employee.getId() == r.getEmployee().getId()) {
             request.setAttribute("report", r);
             request.setAttribute("_token", request.getSession().getId());
+            request.setAttribute("customers", customers);
             request.getSession().setAttribute("report_id", r.getId());
         }
 
