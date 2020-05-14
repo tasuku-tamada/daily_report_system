@@ -44,6 +44,14 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getUnapprovedReports",
             query = "SELECT r FROM Report AS r WHERE r.approval_flag = 0 and r.employee.group = :group and r.employee.position.level < :position_level"
+            ),
+    @NamedQuery(
+            name = "getCustomerReports",
+            query = "SELECT r FROM Report AS r WHERE r.approval_flag = 1 and r.customer.id = :customer_id"
+            ),
+    @NamedQuery(
+            name = "getCustomerReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.approval_flag = 1 and r.customer.id = :customer_id"
             )
 })
 @Entity

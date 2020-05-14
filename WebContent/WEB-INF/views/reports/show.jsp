@@ -50,6 +50,20 @@
                                 <pre><c:out value="${report.content}" /></pre>
                             </td>
                         </tr>
+                        <c:if test="${report.customer != null}">
+                            <tr>
+                                <th>商談相手</th>
+                                <td>
+                                    <c:out value = "${report.customer.name}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>商談状況</th>
+                                <td>
+                                    <c:out value = "${report.business_status}" />
+                                </td>
+                            </tr>
+                        </c:if>
                         <tr>
                             <th>登録日時</th>
                             <td>
@@ -93,16 +107,16 @@
                                  <input type="hidden" name="type" value="0" />
                                  <input type="submit" value = "${'いいね :'+=good_count}" class = "onbutton">
                            </form>
-                         </c:when>
-                         <c:otherwise>
-                            <form method="POST" action="<c:url value="/reaction/add"/>">
-                                 <input type="hidden" name="_token" value="${_token}" />
-                                 <input type="hidden" name="report_id" value="${report.id}" />
-                                 <input type="hidden" name="type" value="0" />
-                                 <input type="submit" value = "${'いいね :'+=good_count}" class = "offbutton">
-                           </form>
-                         </c:otherwise>
-                     </c:choose>
+                     </c:when>
+                     <c:otherwise>
+                        <form method="POST" action="<c:url value="/reaction/add"/>">
+                             <input type="hidden" name="_token" value="${_token}" />
+                             <input type="hidden" name="report_id" value="${report.id}" />
+                             <input type="hidden" name="type" value="0" />
+                             <input type="submit" value = "${'いいね :'+=good_count}" class = "offbutton">
+                       </form>
+                     </c:otherwise>
+                  </c:choose>
 
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
                     <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>

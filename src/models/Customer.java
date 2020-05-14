@@ -14,7 +14,12 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getAllCustomers",
             query="SELECT c FROM Customer AS c ORDER BY c.id ASC"
+            ),
+    @NamedQuery(
+            name = "getCustomersCount",
+            query="SELECT COUNT(c) FROM Customer AS c"
             )
+
 })
 @Entity
 public class Customer {
