@@ -9,6 +9,14 @@
             </div>
         </c:if>
         <h2>出退勤　一覧</h2>
+        <form method="get" action="<c:url value='/attendances/index' />">
+            <select name="date">
+                <c:forEach var="date_option" items="${dates}">
+                    <option <c:if test="${select_date==date_option}">selected</c:if>>${date_option}</option>
+                </c:forEach>
+            </select>
+            <input type ="submit" value="検索">
+        </form>
         <table id="attendance_list">
             <tbody>
                 <tr>

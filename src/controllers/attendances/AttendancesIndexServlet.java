@@ -2,7 +2,6 @@ package controllers.attendances;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -45,24 +44,21 @@ public class AttendancesIndexServlet extends HttpServlet {
         }
 
         List<Attendance> attendances;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date;
         try{
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date dateBegin = sdf.parse(request.getParameter("date"));
-
-            //翌日をのDateを取得する
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateBegin);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            java.util.Date dateEnd = calendar.getTime();
-
-            //文字列型に変更
-            String dateBegin_str = sdf.format(dateBegin);
-            String dateEnd_str = sdf.format(dateEnd);
+            date = sdf.parse(request.getParameter("date"));
+            //翌日をのDateを取得する(=に変更したため不要)
+            //Calendar calendar = Calendar.getInstance();
+            //calendar.setTime(dateBegin);
+            //calendar.add(Calendar.DAY_OF_MONTH, 1);
+            //java.util.Date dateEnd = calendar.getTime();
 
             //指定した日付のレコードを取得
             attendances = em.createNamedQuery("getDateAttendances",Attendance.class)
-                    .setParameter("dateBegin",dateBegin_str)
-                    .setParameter("dateEnd", dateEnd_str)
+                    .setParameter("dateBegin",date)
+                    .setFirstResult(15 * (page - 1))
+                    .setMaxResults(15)
                     .getResultList();
         }
         catch(Exception e){
@@ -70,14 +66,18 @@ public class AttendancesIndexServlet extends HttpServlet {
                                       .setFirstResult(15 * (page - 1))
                                       .setMaxResults(15)
                                       .getResultList();
+            date = null;
         }
 
 
         long attendances_count = (long)em.createNamedQuery("getAttendancesCount", Long.class)
                                      .getSingleResult();
+        List<java.util.Date> dates = em.createNamedQuery("getDates",java.util.Date.class)
+                .getResultList();
 
         em.close();
-
+        request.setAttribute("select_date", date);
+        request.setAttribute("dates",dates);
         request.setAttribute("attendances", attendances);
         request.setAttribute("attendances_count", attendances_count);
         request.setAttribute("page", page);

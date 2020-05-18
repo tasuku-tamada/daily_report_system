@@ -26,7 +26,11 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
             name = "getDateAttendances",
-            query = "SELECT a FROM Attendance AS a WHERE a.date BETWEEN :dateBegin and :dateEnd"
+            query = "SELECT a FROM Attendance AS a WHERE a.date = :dateBegin"
+            ),
+    @NamedQuery(
+            name = "getDates",
+            query = "SELECT DISTINCT a.date FROM Attendance AS a"
             ),
     @NamedQuery(
             name = "checkAttendanceDate",
