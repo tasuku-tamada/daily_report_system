@@ -30,7 +30,7 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
             name = "checkAttendanceDate",
-            query = "SELECT COUNT(a) FROM Attendance AS a WHERE a.employee = :employee and a.date = :dateBegin"
+            query = "SELECT COUNT(a) FROM Attendance AS a WHERE a <> :attendance and a.employee = :employee and a.date = :dateBegin"
             )
 })
 public class Attendance {

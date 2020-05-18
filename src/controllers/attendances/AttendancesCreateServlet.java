@@ -53,7 +53,7 @@ public class AttendancesCreateServlet extends HttpServlet {
             a.setAttendance_time(request.getParameter("attendance_time"));
             a.setLeave_time(request.getParameter("leave_time"));
 
-            List<String> errors = AttendanceValidator.validate(a,loginEmployee,true);
+            List<String> errors = AttendanceValidator.validate(a,loginEmployee);
             if(errors.size() > 0) {
                 em.close();
 
